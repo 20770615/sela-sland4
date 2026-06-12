@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sela's Land — 时光通讯</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- DEV ONLY — 成品发布前删除 -->
+    <link rel="stylesheet" href="dev-mode.css" />
+  </head>
+  <body>
+    <div class="scanlines" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <!-- ═══ TITLE SCREEN ═══ -->
+    <section id="screen-title" class="screen active">
+      <div class="title-bg">
+        <svg class="airplane-wire" viewBox="0 0 800 400" aria-hidden="true">
+          <path d="M50,200 L200,180 L350,200 L500,170 L650,190 L750,200" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+          <path d="M380,200 L420,160 L460,200 L420,240 Z" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+          <circle cx="420" cy="200" r="80" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.2"/>
+        </svg>
+        <div class="lens-flare lens-flare-1"></div>
+        <div class="lens-flare lens-flare-2"></div>
+      </div>
+
+      <div class="title-content">
+        <p class="title-kicker">// NEURAL LINK ESTABLISHED</p>
+        <h1 class="title-main glitch" data-text="SELA'S LAND">SELA'S LAND</h1>
+        <p class="title-sub">时光通讯 · 第 0 章</p>
+        <div class="title-tags">
+          <span class="tag">PHOTO_MODE</span>
+          <span class="tag">FLIGHT_LOG</span>
+          <span class="tag">TIME_SYNC</span>
+        </div>
+        <div class="title-actions">
+          <button id="btn-start" class="btn-cyber btn-start">
+            <span class="btn-text">进入游戏</span>
+            <span class="btn-deco">▶</span>
+          </button>
+          <button id="btn-title-flowmap" class="btn-cyber btn-cyber-alt btn-title-flowmap" type="button">
+            <span class="btn-text">故事地图</span>
+          </button>
+          <p class="title-flowmap-note">仅用于全流程收集，初次游玩请忽略</p>
+        </div>
+        <p class="title-hint">按 Enter 或点击开始</p>
+        <!-- DEV ONLY — 成品发布前删除 -->
+        <button id="btn-dev-open" class="btn-dev-title" type="button">
+          开发者模式
+        </button>
+      </div>
+
+      <footer class="title-footer">
+        <span id="title-birthday">6.13 · 你的生日</span>
+        <span class="blink">█</span>
+      </footer>
+    </section>
+
+    <!-- ═══ INTRO ACT 1 — 旧手机 ═══ -->
+    <section id="screen-intro" class="screen">
+      <div class="intro-panel">
+        <div class="viewfinder-corner tl"></div>
+        <div class="viewfinder-corner tr"></div>
+        <div class="viewfinder-corner bl"></div>
+        <div class="viewfinder-corner br"></div>
+
+        <div class="intro-header">
+          <span class="intro-label">ARCHIVE // RECOVERED_DEVICE</span>
+          <span class="intro-timestamp" id="intro-time"></span>
+        </div>
+
+        <div class="intro-body" id="intro-body">
+          <p class="intro-line hidden" data-delay="0">
+            <span class="line-marker">▸</span>
+            今天是 6 月 13 日，你的生日。你在街角的旧货摊发现了一部奇怪的手机——
+          </p>
+          <p class="intro-line hidden" data-delay="1">
+            <span class="line-marker">▸</span>
+            外壳上刻着一行小字：<em>Sela's Land — 只给 Rex</em>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ INTRO ACT 2 — 坠落 / 穿越 ═══ -->
+    <section id="screen-transit" class="screen">
+      <div class="transit-stage" id="transit-stage">
+        <div class="transit-void" aria-hidden="true"></div>
+        <div class="transit-water" id="transit-water" aria-hidden="true"></div>
+        <div class="transit-flash" id="transit-flash" aria-hidden="true"></div>
+        <div class="transit-blackout" id="transit-blackout" aria-hidden="true"></div>
+
+        <div class="transit-body" id="transit-body">
+          <p class="transit-line hidden">你感觉到脚下的实地忽然抽空。</p>
+          <p class="transit-line hidden">你坠下去。黑暗没有底。</p>
+          <p class="transit-line hidden transit-line-water">紧接着是刺骨的淹没——像整个人被扔进深水里。你睁不开眼，耳边的世界钝成一团闷响。</p>
+          <p class="transit-line hidden">然后，你听见了一个声音。是你自己的。</p>
+          <p class="transit-line hidden transit-line-echo"><em>「……要是我能在你小时候就认识你就好了。」</em></p>
+          <p class="transit-line hidden">你朝前游。光一点一点灭尽。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ INTRO ACT 3 — 茶餐厅 ═══ -->
+    <section id="screen-tea" class="screen">
+      <div class="tea-ambient" aria-hidden="true"></div>
+      <div class="intro-panel tea-panel">
+        <div class="viewfinder-corner tl"></div>
+        <div class="viewfinder-corner tr"></div>
+        <div class="viewfinder-corner bl"></div>
+        <div class="viewfinder-corner br"></div>
+
+        <div class="intro-header">
+          <span class="intro-label">LOCATION // CHA_CHAAN_TENG</span>
+          <span class="intro-timestamp" id="tea-time"></span>
+        </div>
+
+        <div class="intro-body" id="tea-body">
+          <p class="intro-line tea-line hidden" data-delay="0">
+            <span class="line-marker">▸</span>
+            再睁眼，你坐在一家旧式茶餐厅里。
+          </p>
+          <p class="intro-line tea-line hidden" data-delay="1">
+            <span class="line-marker">▸</span>
+            墙上的字样透过油烟和反光，只剩下隐约的轮廓——<strong>敏华</strong>。
+          </p>
+          <p class="intro-line tea-line hidden" data-delay="2">
+            <span class="line-marker">▸</span>
+            这名字熟得奇怪，你却怎么也想不起在哪见过。
+          </p>
+          <p class="intro-line tea-line hidden" data-delay="3">
+            <span class="line-marker">▸</span>
+            你低头检查自己：干爽的，舒适的。刚才那场溺水像从未发生。
+          </p>
+          <p class="intro-line tea-line hidden" data-delay="4">
+            <span class="line-marker">▸</span>
+            你兜里那部刻着 <em>Sela's Land</em> 的旧手机震了一下——一条短信，一个陌生坐标。
+          </p>
+          <p class="intro-line tea-line hidden" data-delay="5">
+            <span class="line-marker">▸</span>
+            <strong id="time-sync-line">TIME: 2017 · AGE: 10 · LOCATION: 上海</strong>
+          </p>
+          <p class="intro-line tea-line hidden" data-delay="6">
+            <span class="line-marker">▸</span>
+            一条新消息弹了出来……
+          </p>
+        </div>
+
+        <button id="btn-skip-intro" class="btn-cyber btn-skip hidden">
+          <span class="btn-text">打开通讯</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══ CHAPTER BRIDGE (10→15 transition) ═══ -->
+    <section id="screen-bridge" class="screen">
+      <div class="tea-ambient" aria-hidden="true"></div>
+      <div class="intro-panel tea-panel bridge-panel">
+        <div class="viewfinder-corner tl"></div>
+        <div class="viewfinder-corner tr"></div>
+        <div class="viewfinder-corner bl"></div>
+        <div class="viewfinder-corner br"></div>
+
+        <div class="intro-header">
+          <span class="intro-label" id="bridge-label">TIME // ELAPSED</span>
+          <span class="intro-timestamp" id="bridge-time"></span>
+        </div>
+
+        <div class="intro-body" id="bridge-body"></div>
+
+        <button id="btn-bridge-continue" class="btn-cyber btn-skip hidden" type="button">
+          <span class="btn-text" id="bridge-btn-text">继续</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══ CHAT / DIALOGUE SCREEN ═══ -->
+    <section id="screen-chat" class="screen">
+      <div class="chat-stage">
+        <div class="code-wall" id="code-wall" aria-hidden="true"></div>
+        <div class="code-wall-glow" aria-hidden="true"></div>
+
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+
+          <header class="chat-header">
+            <button id="btn-back" class="btn-icon" title="返回" aria-label="返回">←</button>
+            <div class="chat-contact">
+              <div class="contact-avatar" id="contact-avatar">
+                <img src="assets/sela-10.png" alt="10岁的Sela" id="avatar-img" />
+                <span class="avatar-ring"></span>
+              </div>
+              <div class="contact-info">
+              <span class="contact-name" id="contact-name">Sela · 10岁</span>
+              <span class="contact-status" id="contact-status"><span class="status-dot"></span>时光链路已连接</span>
+              </div>
+            </div>
+            <div class="chat-meta">
+              <span class="meta-tag" id="chat-year-tag">2017</span>
+            </div>
+          </header>
+
+          <div class="chat-body">
+            <div class="chat-photo-bg" id="chat-photo-bg" aria-hidden="true">
+              <img src="assets/ch18-chat-bg.png" alt="" />
+              <div class="chat-photo-bg-shade"></div>
+            </div>
+            <div class="chat-messages" id="chat-messages"></div>
+          </div>
+
+          <div class="choices-panel" id="choices-panel">
+            <p class="choices-label">// 选择你的回复</p>
+            <div class="choices-list" id="choices-list"></div>
+          </div>
+
+          <footer class="chat-footer">
+            <span id="chat-chapter-id">USER: YOU · CH-10</span>
+            <span id="chapter-progress">进度 0%</span>
+          </footer>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ END CARD (shown after first chapter) ═══ -->
+    <section id="screen-end" class="screen">
+      <div class="end-panel">
+        <p class="end-kicker" id="end-kicker">CHAPTER 01 · COMPLETE</p>
+        <h2 class="end-title" id="end-title">10岁的 Sela 记住了你</h2>
+        <p class="end-desc" id="end-desc">时光链路暂时休眠……</p>
+        <div class="end-story-map" id="end-story-map"></div>
+        <div class="end-actions">
+          <button id="btn-replay" class="btn-cyber" type="button">
+            <span class="btn-text">重新开始</span>
+          </button>
+          <button id="btn-to-title" class="btn-cyber btn-cyber-alt" type="button">
+            <span class="btn-text">回到标题</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ STORY FLOW MAP (unlocked after first playthrough) ═══ -->
+    <section id="screen-flowmap" class="screen">
+      <div class="flowmap-panel">
+        <header class="flowmap-header">
+          <p class="flowmap-kicker">// STORY_MAP · ALL</p>
+          <h2 class="flowmap-title">时光分支图</h2>
+          <p class="flowmap-hint">树状流程图 · 点击节点回溯 · 红色 <strong>?</strong> 为未知分支</p>
+        </header>
+        <div class="flowmap-scroll" id="flowmap-tree"></div>
+        <footer class="flowmap-footer">
+          <button id="btn-flowmap-back" class="btn-cyber btn-cyber-alt" type="button">
+            <span class="btn-text">返回</span>
+          </button>
+        </footer>
+      </div>
+    </section>
+
+    <!-- DEV ONLY — 成品发布前删除整块 dev-mode -->
+    <div id="dev-mode-panel" aria-hidden="true">
+      <div class="dev-mode-header">
+        <h3>// DEV · 快捷模式</h3>
+        <button type="button" class="dev-mode-close" id="dev-mode-close" aria-label="关闭">×</button>
+      </div>
+      <div id="dev-mode-body" class="dev-mode-body"></div>
+    </div>
+
+    <button id="dev-mode-toggle" type="button" class="dev-mode-toggle-btn">开发者模式</button>
+
+    <div id="photo-viewer" class="photo-viewer hidden" role="dialog" aria-modal="true" aria-label="查看照片">
+      <button type="button" class="photo-viewer-close" id="photo-viewer-close" aria-label="关闭">×</button>
+      <div class="photo-viewer-backdrop" id="photo-viewer-backdrop"></div>
+      <figure class="photo-viewer-stage">
+        <img id="photo-viewer-img" src="" alt="" />
+      </figure>
+    </div>
+
+    <script src="code-scroll.js"></script>
+    <script src="flowmap.js"></script>
+    <script src="audio.js"></script>
+    <script src="game.js"></script>
+    <script>
+      window.toggleSelasDevPanel = function () {
+        var panel = document.getElementById("dev-mode-panel");
+        if (!panel) return;
+        var willOpen = !panel.classList.contains("is-open");
+        panel.classList.toggle("is-open", willOpen);
+        panel.setAttribute("aria-hidden", willOpen ? "false" : "true");
+        document.body.classList.toggle("dev-panel-open", willOpen);
+        if (willOpen && typeof window.__selasDevOnOpen === "function") {
+          window.__selasDevOnOpen();
+        }
+      };
+      document.getElementById("dev-mode-toggle").onclick = function () {
+        window.toggleSelasDevPanel();
+      };
+      document.getElementById("dev-mode-close").onclick = function () {
+        var panel = document.getElementById("dev-mode-panel");
+        if (panel) {
+          panel.classList.remove("is-open");
+          panel.setAttribute("aria-hidden", "true");
+        }
+        document.body.classList.remove("dev-panel-open");
+      };
+    </script>
+    <script src="dev-mode.js"></script>
+  </body>
+</html>
