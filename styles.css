@@ -14,9 +14,14 @@
   --text-muted: #8888a0;
   --border-dim: rgba(0, 240, 255, 0.15);
   --border-glow: rgba(252, 238, 10, 0.4);
-  --font-display: "Orbitron", sans-serif;
-  --font-ui: "Rajdhani", "Noto Sans SC", sans-serif;
-  --font-body: "Noto Sans SC", sans-serif;
+  --font-display: "Orbitron", "Segoe UI", sans-serif;
+  --font-ui: "Rajdhani", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.hidden,
+[hidden] {
+  display: none !important;
 }
 
 *, *::before, *::after {

@@ -244,15 +244,21 @@
     const endDesc = document.getElementById("end-desc");
     if (endTitle) endTitle.textContent = END_SCREEN_VARIANTS.default.title;
     if (endDesc) endDesc.innerHTML = END_SCREEN_VARIANTS.default.desc;
-    endStoryUnlock?.classList.add("hidden");
+    setEndStoryMapVisible(false);
+  }
+
+  function setUnlockSectionVisible(el, visible) {
+    if (!el) return;
+    el.classList.toggle("hidden", !visible);
+    el.hidden = !visible;
   }
 
   function setEndStoryMapVisible(visible) {
-    endStoryUnlock?.classList.toggle("hidden", !visible);
+    setUnlockSectionVisible(endStoryUnlock, visible);
   }
 
   function updateTitleStoryMapUI() {
-    titleStoryUnlock?.classList.toggle("hidden", !storyMapUnlocked);
+    setUnlockSectionVisible(titleStoryUnlock, storyMapUnlocked);
   }
 
   function unlockStoryMapForSession() {
@@ -1926,6 +1932,9 @@
 
   function initTimelineUI() {
     updateChapterUI();
+    storyMapUnlocked = false;
+    setEndStoryMapVisible(false);
+    updateTitleStoryMapUI();
 
     const endTitle = document.getElementById("end-title");
     if (endTitle) endTitle.textContent = END_SCREEN_VARIANTS.default.title;
