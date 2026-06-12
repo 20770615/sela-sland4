@@ -18,14 +18,17 @@
   };
 
   const btnStart = document.getElementById("btn-start");
-  const btnTitleFlowmap = document.getElementById("btn-title-flowmap");
   const btnSkipIntro = document.getElementById("btn-skip-intro");
   const btnBack = document.getElementById("btn-back");
   const btnReplay = document.getElementById("btn-replay");
   const btnToTitle = document.getElementById("btn-to-title");
+  const btnEndFlowmap = document.getElementById("btn-end-flowmap");
+  const btnTitleFlowmap = document.getElementById("btn-title-flowmap");
   const btnFlowmapBack = document.getElementById("btn-flowmap-back");
-  const btnBridgeContinue = document.getElementById("btn-bridge-continue");
+  const endStoryUnlock = document.getElementById("end-story-unlock");
+  const titleStoryUnlock = document.getElementById("title-story-unlock");
   const flowmapTree = document.getElementById("flowmap-tree");
+  const btnBridgeContinue = document.getElementById("btn-bridge-continue");
   const bridgeBody = document.getElementById("bridge-body");
   const bridgeLabel = document.getElementById("bridge-label");
   const bridgeTime = document.getElementById("bridge-time");
@@ -180,6 +183,7 @@
   let chosenEnding = null;
   let flowTimers = [];
   let flowmapReturnTo = "end";
+  let storyMapUnlocked = false;
   let activeCheckpointId = null;
   let isJumpReplay = false;
   let bridgeNextAge = 15;
@@ -240,6 +244,26 @@
     const endDesc = document.getElementById("end-desc");
     if (endTitle) endTitle.textContent = END_SCREEN_VARIANTS.default.title;
     if (endDesc) endDesc.innerHTML = END_SCREEN_VARIANTS.default.desc;
+    endStoryUnlock?.classList.add("hidden");
+  }
+
+  function setEndStoryMapVisible(visible) {
+    endStoryUnlock?.classList.toggle("hidden", !visible);
+  }
+
+  function updateTitleStoryMapUI() {
+    titleStoryUnlock?.classList.toggle("hidden", !storyMapUnlocked);
+  }
+
+  function unlockStoryMapForSession() {
+    if (storyMapUnlocked) return;
+    storyMapUnlocked = true;
+    updateTitleStoryMapUI();
+  }
+
+  function setStoryMapUnlocked(unlocked) {
+    if (unlocked) unlockStoryMapForSession();
+    setEndStoryMapVisible(unlocked);
   }
 
   const DIALOGUE = {
@@ -1403,32 +1427,17 @@
     scrollChatToBottom();
   }
 
-  function renderEndStoryMap() {
-    const container = document.getElementById("end-story-map");
-    if (!container || !window.SelasFlowmap) return;
-    window.SelasFlowmap.renderCompact(container, (age, nodeId) => {
-      flowmapReturnTo = "end";
-      jumpToChapterNode(age, nodeId);
-    });
-  }
-
-  function renderFlowmap() {
+  function openStoryMap(returnTo) {
     if (!window.SelasFlowmap || !flowmapTree) return;
-    window.SelasFlowmap.renderCompact(flowmapTree, (age, nodeId) => {
-      flowmapReturnTo = "flowmap";
+    flowmapReturnTo = returnTo === "title" ? "title" : "end";
+    window.SelasFlowmap.renderFlowmap(flowmapTree, (age, nodeId) => {
       jumpToChapterNode(age, nodeId);
     });
-  }
-
-  function openFlowmap(returnTo) {
-    flowmapReturnTo = returnTo || "end";
-    renderFlowmap();
     showScreen("flowmap");
   }
 
-  function closeFlowmap() {
-    const target = flowmapReturnTo === "title" ? "title" : flowmapReturnTo === "chat" ? "chat" : "end";
-    showScreen(target);
+  function closeStoryMap() {
+    showScreen(flowmapReturnTo === "title" ? "title" : "end");
   }
 
   function addChatBubble(text, isMe) {
@@ -1778,6 +1787,7 @@
       if (endKicker) endKicker.textContent = "ALL CHAPTERS · COMPLETE";
       if (endTitle) endTitle.textContent = variant.title;
       if (endDesc) endDesc.innerHTML = variant.desc;
+      setStoryMapUnlocked(true);
     } else if (options.mode === "bad") {
       const variant =
         END_SCREEN_VARIANTS[chosenEnding] || END_SCREEN_VARIANTS.default;
@@ -1786,12 +1796,14 @@
       if (endKicker) endKicker.textContent = `CHAPTER ${chLabel} · END`;
       if (endTitle) endTitle.textContent = variant.title;
       if (endDesc) endDesc.innerHTML = variant.desc;
+      setStoryMapUnlocked(false);
     } else {
       const variant =
         END_SCREEN_VARIANTS[chosenEnding] || END_SCREEN_VARIANTS.default;
       if (endKicker) endKicker.textContent = "CHAPTER 01 · COMPLETE";
       if (endTitle) endTitle.textContent = variant.title;
       if (endDesc) endDesc.innerHTML = variant.desc;
+      setStoryMapUnlocked(false);
     }
 
     scheduleFlow(() => {
@@ -1802,12 +1814,6 @@
         ENDING_SOUND_VOLUME[endKey]
       );
     }, 1200);
-    if (options.mode === "good") {
-      scheduleFlow(() => renderEndStoryMap(), 1300);
-    } else {
-      const container = document.getElementById("end-story-map");
-      if (container) container.innerHTML = "";
-    }
   }
 
   function startChat() {
@@ -1858,6 +1864,7 @@
     resetBridgeScreen();
     resetEndScreenCopy();
     updateProgress(0);
+    updateTitleStoryMapUI();
     showScreen("title");
   }
 
@@ -1873,15 +1880,13 @@
 
   btnBridgeContinue?.addEventListener("click", () => startChapter(bridgeNextAge));
   btnStart?.addEventListener("click", beginGame);
-  btnTitleFlowmap?.addEventListener("click", () => {
-    window.SelasAudio?.unlock();
-    openFlowmap("title");
-  });
   btnSkipIntro?.addEventListener("click", startChat);
   btnBack?.addEventListener("click", resetGame);
   btnReplay?.addEventListener("click", restartGame);
   btnToTitle?.addEventListener("click", resetGame);
-  btnFlowmapBack?.addEventListener("click", closeFlowmap);
+  btnEndFlowmap?.addEventListener("click", () => openStoryMap("end"));
+  btnTitleFlowmap?.addEventListener("click", () => openStoryMap("title"));
+  btnFlowmapBack?.addEventListener("click", closeStoryMap);
 
   document.getElementById("photo-viewer-close")?.addEventListener("click", closePhotoViewer);
   document.getElementById("photo-viewer-backdrop")?.addEventListener("click", closePhotoViewer);
@@ -1926,98 +1931,4 @@
     if (endTitle) endTitle.textContent = END_SCREEN_VARIANTS.default.title;
   }
 
-  function collectCheckpoints(age) {
-    const dialogue =
-      age === 15 ? DIALOGUE_15 : age === 18 ? DIALOGUE_18 : DIALOGUE;
-    const prefix = age === 15 ? "[15] " : age === 18 ? "[18] " : "[10] ";
-    return Object.entries(dialogue)
-      .filter(([, node]) => node.choices && node.choices.length)
-      .map(([id, node]) => ({
-        id,
-        age: age || 10,
-        preview: prefix + (node.text || "选择回复").slice(0, 28),
-      }));
-  }
-
-  // ═══════════════════════════════════════════
-  // DEV BRIDGE — 成品发布前删除本段 + dev-mode.js/css
-  // ═══════════════════════════════════════════
-  window.SelasLandDev = {
-    gotoScreen: showScreen,
-    reset: resetGame,
-    playIntro,
-    playTransit,
-    playTea,
-    playBridge(path) {
-      if (path) {
-        chosenPath = path;
-        window.SelasFlowmap?.saveCh10Path(path);
-      }
-      playBridgeTo15();
-    },
-    playBridgeTo18,
-    startChat,
-    goChapter(age, path) {
-      if (path) {
-        chosenPath = path;
-        window.SelasFlowmap?.saveCh10Path(path);
-      }
-      startChapter(age);
-    },
-    jumpTo(nodeId) {
-      if (nodeId.startsWith("ch15_")) {
-        jumpToChapterNode(15, nodeId);
-        return;
-      }
-      if (nodeId.startsWith("ch18_")) {
-        jumpToChapterNode(18, nodeId);
-        return;
-      }
-      jumpToCheckpoint(nodeId);
-    },
-    jumpTo15(nodeId) {
-      jumpToChapterNode(15, nodeId);
-    },
-    jumpTo18(nodeId) {
-      jumpToChapterNode(18, nodeId);
-    },
-    showEnd(mode, endKey) {
-      if (endKey) chosenEnding = endKey;
-      showEndScreen({ mode: mode || "bad" });
-    },
-    openStoryMap() {
-      openFlowmap("end");
-    },
-    setPath(path) {
-      chosenPath = path;
-      window.SelasFlowmap?.saveCh10Path(path);
-    },
-    skipToTransit() {
-      clearAllTimers();
-      resetIntroScreen();
-      showScreen("transit");
-      transitWater?.classList.add("active");
-      transitLines.forEach((line) => {
-        line.classList.remove("hidden");
-        line.classList.add("visible");
-      });
-    },
-    skipToTea() {
-      clearAllTimers();
-      resetIntroScreen();
-      showScreen("tea");
-      window.SelasAudio?.startAmbient("teaBustleA", 0.34);
-      teaLines.forEach((line) => {
-        line.classList.remove("hidden");
-        line.classList.add("visible");
-      });
-      btnSkipIntro?.classList.remove("hidden");
-    },
-    getCheckpoints(age) {
-      return collectCheckpoints(age || 10);
-    },
-    getAllCheckpoints() {
-      return [10, 15, 18].flatMap((age) => collectCheckpoints(age));
-    },
-  };
 })();

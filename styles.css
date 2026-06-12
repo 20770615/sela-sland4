@@ -264,13 +264,11 @@ body {
   justify-content: center;
 }
 
-.btn-title-flowmap {
-  padding: 0.85rem 1.5rem;
-  font-size: 0.82rem;
-  letter-spacing: 0.12em;
+.title-story-unlock.hidden {
+  display: none;
 }
 
-.title-flowmap-note {
+.title-story-unlock-note {
   margin: 0.15rem 0 0;
   font-size: 0.68rem;
   letter-spacing: 0.06em;
@@ -1420,6 +1418,7 @@ body.photo-viewer-open {
 #screen-end {
   background: var(--bg-deep);
   padding: 2rem;
+  overflow-y: auto;
 }
 
 .end-panel {
@@ -1451,14 +1450,25 @@ body.photo-viewer-open {
   margin-bottom: 1.25rem;
 }
 
-.end-story-map {
-  width: 100%;
-  max-width: min(920px, 100%);
-  margin: 0 auto 2rem;
-  text-align: center;
+.end-story-unlock {
+  margin-bottom: 1.75rem;
 }
 
-/* ── Detroit-style flow tree ── */
+.end-story-unlock.hidden {
+  display: none;
+}
+
+.end-story-unlock-note {
+  margin: 0.55rem 0 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+}
+
+/* ── Story flow tree ── */
 .story-tree {
   padding: 0.75rem 0.5rem 0.25rem;
   border: 1px solid rgba(0, 240, 255, 0.2);
@@ -1593,6 +1603,25 @@ body.photo-viewer-open {
   background: rgba(255, 61, 90, 0.22);
   border-color: #ff3d5a;
   box-shadow: 0 0 18px rgba(255, 61, 90, 0.4);
+}
+
+.tree-node.is-age-transition {
+  min-width: 2.6rem;
+  padding: 0.3rem 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--neon-yellow);
+  background: rgba(252, 238, 10, 0.08);
+  border-color: rgba(252, 238, 10, 0.55);
+  border-radius: 999px;
+}
+
+.tree-node.is-age-transition:hover {
+  color: #fff;
+  background: rgba(252, 238, 10, 0.16);
+  border-color: rgba(252, 238, 10, 0.85);
+  box-shadow: 0 0 14px rgba(252, 238, 10, 0.22);
 }
 
 .tree-stem {
@@ -1738,7 +1767,6 @@ body.photo-viewer-open {
     letter-spacing: 0.04em;
   }
 }
-
 .msg-bubble.msg-history {
   opacity: 0.82;
 }
@@ -1748,195 +1776,60 @@ body.photo-viewer-open {
 }
 
 /* ═══════════════════════════════════════════
-   STORY FLOW MAP
+   STORY FLOW MAP SCREEN
    ═══════════════════════════════════════════ */
 #screen-flowmap {
   background:
     radial-gradient(ellipse at 30% 20%, rgba(0, 240, 255, 0.05) 0%, transparent 50%),
     var(--bg-deep);
   padding: 1rem;
+  align-items: stretch;
+  justify-content: center;
 }
 
 .flowmap-panel {
   display: flex;
   flex-direction: column;
-  width: min(960px, 100%);
+  width: min(980px, 100%);
   height: min(92vh, 900px);
   max-height: 100%;
-}
-
-.flowmap-header {
-  text-align: center;
-  flex-shrink: 0;
-  margin-bottom: 1rem;
-}
-
-.flowmap-kicker {
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  color: var(--neon-cyan);
-  margin-bottom: 0.4rem;
-}
-
-.flowmap-title {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  color: var(--neon-yellow);
-  margin-bottom: 0.5rem;
-}
-
-.flowmap-hint {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.flowmap-hint strong {
-  color: var(--neon-cyan);
-  font-weight: 500;
 }
 
 .flowmap-scroll {
   flex: 1;
   overflow: auto;
-  padding: 1rem 0.5rem 1.5rem;
-  border: 1px solid var(--border-dim);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.35);
+  padding: 0.5rem 0.25rem 1rem;
   scrollbar-width: thin;
-  scrollbar-color: var(--neon-cyan) transparent;
+  scrollbar-color: rgba(0, 240, 255, 0.35) transparent;
+}
+
+.flowmap-scroll .story-tree {
+  min-width: min-content;
+  border: none;
+  background: transparent;
+  padding: 0.25rem 0.5rem 0.5rem;
+}
+
+.flowmap-scroll .story-tree-heading {
+  text-align: left;
+  margin-bottom: 1rem;
 }
 
 .flowmap-footer {
   flex-shrink: 0;
   display: flex;
   justify-content: center;
-  padding-top: 1rem;
-}
-
-/* Tree layout — choice-only forks */
-.flow-tree-root {
-  display: flex;
-  justify-content: center;
-  min-width: min-content;
-  padding: 0.5rem;
-}
-
-.flow-fork {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.flow-fork-hub {
-  margin-bottom: 0.35rem;
-}
-
-.flow-fork-current .flow-jump-btn {
-  border-color: var(--neon-yellow);
-  color: var(--neon-yellow);
-  box-shadow: 0 0 12px rgba(252, 238, 10, 0.2);
-}
-
-.flow-jump-btn {
-  display: inline-block;
-  padding: 0.3rem 0.65rem;
-  font-family: var(--font-ui);
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  color: var(--neon-cyan);
-  background: rgba(0, 240, 255, 0.06);
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-  white-space: nowrap;
-}
-
-.flow-jump-btn:hover {
-  background: rgba(0, 240, 255, 0.15);
-  color: #fff;
-}
-
-.flow-branches {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  padding-top: 0.75rem;
-}
-
-.flow-branches::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 1px;
-  height: 0.75rem;
-  background: rgba(0, 240, 255, 0.25);
-}
-
-.flow-branches-fork {
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem 0.5rem;
-  align-items: flex-start;
-  padding-top: 1rem;
-}
-
-.flow-branches-fork::before {
-  height: 1rem;
-}
-
-.flow-branch {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  max-width: 140px;
-}
-
-.flow-branch::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 1px;
-  height: 0.45rem;
-  background: rgba(0, 240, 255, 0.2);
-}
-
-.flow-choice-label {
-  padding: 0.35rem 0.5rem;
-  margin-bottom: 0.35rem;
-  font-size: 0.72rem;
-  line-height: 1.35;
-  color: var(--neon-yellow);
-  background: rgba(252, 238, 10, 0.06);
-  border: 1px solid rgba(252, 238, 10, 0.25);
-  border-radius: 10px;
-  text-align: center;
-  word-break: break-word;
-}
-
-.flow-end-leaf {
-  padding: 0.25rem 0.55rem;
-  font-family: var(--font-ui);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  border: 1px dashed rgba(252, 238, 10, 0.3);
-  border-radius: 4px;
+  padding-top: 0.85rem;
 }
 
 @media (max-width: 768px) {
-  .flow-branches-fork {
+  .flowmap-scroll .story-tree-scroll {
+    padding-bottom: 1rem;
+  }
+
+  .tree-fan.is-split {
     flex-direction: column;
     align-items: center;
   }
-
-  .flow-branch {
-    max-width: 220px;
-  }
 }
+

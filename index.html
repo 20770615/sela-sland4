@@ -11,8 +11,6 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <!-- DEV ONLY — 成品发布前删除 -->
-    <link rel="stylesheet" href="dev-mode.css" />
   </head>
   <body>
     <div class="scanlines" aria-hidden="true"></div>
@@ -44,16 +42,14 @@
             <span class="btn-text">进入游戏</span>
             <span class="btn-deco">▶</span>
           </button>
-          <button id="btn-title-flowmap" class="btn-cyber btn-cyber-alt btn-title-flowmap" type="button">
-            <span class="btn-text">故事地图</span>
-          </button>
-          <p class="title-flowmap-note">仅用于全流程收集，初次游玩请忽略</p>
+          <div class="title-story-unlock hidden" id="title-story-unlock">
+            <button id="btn-title-flowmap" class="btn-cyber btn-cyber-alt" type="button">
+              <span class="btn-text">故事地图</span>
+            </button>
+            <p class="title-story-unlock-note">故事地图已解锁，点击回溯时间</p>
+          </div>
         </div>
         <p class="title-hint">按 Enter 或点击开始</p>
-        <!-- DEV ONLY — 成品发布前删除 -->
-        <button id="btn-dev-open" class="btn-dev-title" type="button">
-          开发者模式
-        </button>
       </div>
 
       <footer class="title-footer">
@@ -233,7 +229,12 @@
         <p class="end-kicker" id="end-kicker">CHAPTER 01 · COMPLETE</p>
         <h2 class="end-title" id="end-title">10岁的 Sela 记住了你</h2>
         <p class="end-desc" id="end-desc">时光链路暂时休眠……</p>
-        <div class="end-story-map" id="end-story-map"></div>
+        <div class="end-story-unlock hidden" id="end-story-unlock">
+          <button id="btn-end-flowmap" class="btn-cyber btn-cyber-alt" type="button">
+            <span class="btn-text">故事地图</span>
+          </button>
+          <p class="end-story-unlock-note">故事地图已解锁，点击回溯时间</p>
+        </div>
         <div class="end-actions">
           <button id="btn-replay" class="btn-cyber" type="button">
             <span class="btn-text">重新开始</span>
@@ -245,33 +246,17 @@
       </div>
     </section>
 
-    <!-- ═══ STORY FLOW MAP (unlocked after first playthrough) ═══ -->
+    <!-- ═══ STORY FLOW MAP (unlocked after good ending) ═══ -->
     <section id="screen-flowmap" class="screen">
       <div class="flowmap-panel">
-        <header class="flowmap-header">
-          <p class="flowmap-kicker">// STORY_MAP · ALL</p>
-          <h2 class="flowmap-title">时光分支图</h2>
-          <p class="flowmap-hint">树状流程图 · 点击节点回溯 · 红色 <strong>?</strong> 为未知分支</p>
-        </header>
         <div class="flowmap-scroll" id="flowmap-tree"></div>
         <footer class="flowmap-footer">
           <button id="btn-flowmap-back" class="btn-cyber btn-cyber-alt" type="button">
-            <span class="btn-text">返回</span>
+            <span class="btn-text">返回结局</span>
           </button>
         </footer>
       </div>
     </section>
-
-    <!-- DEV ONLY — 成品发布前删除整块 dev-mode -->
-    <div id="dev-mode-panel" aria-hidden="true">
-      <div class="dev-mode-header">
-        <h3>// DEV · 快捷模式</h3>
-        <button type="button" class="dev-mode-close" id="dev-mode-close" aria-label="关闭">×</button>
-      </div>
-      <div id="dev-mode-body" class="dev-mode-body"></div>
-    </div>
-
-    <button id="dev-mode-toggle" type="button" class="dev-mode-toggle-btn">开发者模式</button>
 
     <div id="photo-viewer" class="photo-viewer hidden" role="dialog" aria-modal="true" aria-label="查看照片">
       <button type="button" class="photo-viewer-close" id="photo-viewer-close" aria-label="关闭">×</button>
@@ -285,30 +270,5 @@
     <script src="flowmap.js"></script>
     <script src="audio.js"></script>
     <script src="game.js"></script>
-    <script>
-      window.toggleSelasDevPanel = function () {
-        var panel = document.getElementById("dev-mode-panel");
-        if (!panel) return;
-        var willOpen = !panel.classList.contains("is-open");
-        panel.classList.toggle("is-open", willOpen);
-        panel.setAttribute("aria-hidden", willOpen ? "false" : "true");
-        document.body.classList.toggle("dev-panel-open", willOpen);
-        if (willOpen && typeof window.__selasDevOnOpen === "function") {
-          window.__selasDevOnOpen();
-        }
-      };
-      document.getElementById("dev-mode-toggle").onclick = function () {
-        window.toggleSelasDevPanel();
-      };
-      document.getElementById("dev-mode-close").onclick = function () {
-        var panel = document.getElementById("dev-mode-panel");
-        if (panel) {
-          panel.classList.remove("is-open");
-          panel.setAttribute("aria-hidden", "true");
-        }
-        document.body.classList.remove("dev-panel-open");
-      };
-    </script>
-    <script src="dev-mode.js"></script>
   </body>
 </html>
